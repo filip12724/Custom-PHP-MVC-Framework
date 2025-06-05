@@ -1,0 +1,12 @@
+{
+  "name": "swann/framework",
+  "autoload": {
+    "psr-4": {
+      "Elephant\\Framework\\": "src/",
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "symfony/var-dumper": "^7.3"
+  }
+}
