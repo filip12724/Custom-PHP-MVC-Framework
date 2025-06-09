@@ -11,26 +11,20 @@ class Kernel
     public function handle(Request $request): Response 
     {
         $dispatcher = simpleDispatcher(function(RouteCollector $routeCollector){
-            $routeCollector->addRoute('GET', '/', function(){
-                $content = "<h1>Hello World</h1>";
+            $routes = include BASE_PATH . '/routes/web.php';
 
-                return new Response($content);
-            });
-
-            $routeCollector->addRoute('GET', '/books/{id:\d+}', function($id){
-                $content = "<h1>This book is number $id </h1>";
-
-                return new Response($content);
-            });
-
+            foreach ($routes as $route) {
+                $routeCollector->addRoute(...$route);
+            }
         });
+
         $routeInfo = $dispatcher->dispatch(
             $request->getMethod(), 
             $request->getUri(),
         );
 
-        [$status, $handler, $vars] = $routeInfo;
+        [$status, [$controller, $method], $vars] = $routeInfo;
        
-        return call_user_func_array($handler, $vars);
+        return call_user_func_array([new $controller, $method], $vars);
     }
 }
