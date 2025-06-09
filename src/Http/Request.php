@@ -17,7 +17,8 @@ class Request {
         private array $env
     ){}
 
-    public static function create(): static {
+    public static function create(): static 
+    {
         if(null === static::$instance){
             static::$instance = new static (
                 $_SERVER,
@@ -29,5 +30,15 @@ class Request {
             );
         }
         return static::$instance;
+    }
+
+    public function getMethod(): string 
+    {
+        return $this->server['REQUEST_METHOD'];
+    }
+
+    public function getUri(): string 
+    {
+        return $this->server['REQUEST_URI'];
     }
 }
