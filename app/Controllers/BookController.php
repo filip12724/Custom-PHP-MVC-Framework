@@ -15,4 +15,14 @@ class BookController extends AbstractController
             'id' => $id,
         ]);
     }
+
+    public function create(): Response
+    {
+        return $this->render('create-book.html.twig');
+    }
+
+    public function store(): void
+    {
+        dd($this->request);
+    }
 }

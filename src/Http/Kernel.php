@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Elephant\Framework\Http;
 
+use Elephant\Framework\Controllers\AbstractController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
@@ -25,6 +26,12 @@ class Kernel
 
         [$status, [$controller, $method], $vars] = $routeInfo;
        
-        return call_user_func_array([new $controller, $method], $vars);
+        $controller = new $controller;
+
+        if($controller instanceof AbstractController){
+            $controller->setRequest($request);
+        }
+        
+        return call_user_func_array([$controller, $method], $vars);
     }
 }
