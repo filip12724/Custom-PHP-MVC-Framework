@@ -4,11 +4,20 @@ declare(strict_types=1);
 namespace Elephant\Framework\Http;
 
 use Elephant\Framework\Controllers\AbstractController;
+use Elephant\Framework\Database\Connection;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
 class Kernel 
 {
+    protected ?Connection $connection = null;
+    public function __construct()
+    {
+        $config = include BASE_PATH . '/database/config.php';
+
+        $this->connection = Connection::create($config['connectionString']);
+    }
+
     public function handle(Request $request): Response 
     {
         $dispatcher = simpleDispatcher(function(RouteCollector $routeCollector){

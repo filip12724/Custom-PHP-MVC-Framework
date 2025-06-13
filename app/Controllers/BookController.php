@@ -3,6 +3,7 @@ declare (strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\Book;
 use Elephant\Framework\Controllers\AbstractController;
 use Elephant\Framework\Http\Response;
 
@@ -23,6 +24,10 @@ class BookController extends AbstractController
 
     public function store(): void
     {
-        dd($this->request);
+        $book = new Book();
+        $book->setTitle($this->request->getPostParams('title'));
+        $book->setBody($this->request->getPostParams('body'));
+
+        dd($book);
     }
 }
