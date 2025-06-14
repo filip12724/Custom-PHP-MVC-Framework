@@ -28,6 +28,7 @@ class BookController extends AbstractController
         $book->setTitle($this->request->getPostParams('title'));
         $book->setBody($this->request->getPostParams('body'));
 
+        $book->save();
         dd($book);
     }
 }

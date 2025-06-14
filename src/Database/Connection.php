@@ -16,12 +16,13 @@ class Connection
     }
 
     public static function create(string $connectionString): static
-    {
-        if(null === static::$instance){
-            static::$instance == new static($connectionString);
-        }
-        return static::$instance;
-    }
+	{
+		if (null === static::$instance) {
+			static::$instance = new static($connectionString);
+		}
+
+		return static::$instance;
+	}
 
     public static function getConnection()
     {

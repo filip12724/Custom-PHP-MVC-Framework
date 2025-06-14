@@ -1,5 +1,4 @@
 <?php
-declare (strict_types = 1);
 
 namespace App\Models;
 
@@ -25,7 +24,7 @@ class Book
 
         $statement->execute();
 
-        $id = $connection->pdo->lastInsertedId();
+        $id = $connection->pdo->lastInsertId();
 
         $this->setId($id);
     }

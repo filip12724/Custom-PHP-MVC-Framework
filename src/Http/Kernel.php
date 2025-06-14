@@ -1,46 +1,47 @@
-<?php 
-declare(strict_types=1);
+<?php
 
 namespace Elephant\Framework\Http;
 
+use FastRoute\RouteCollector;
 use Elephant\Framework\Controllers\AbstractController;
 use Elephant\Framework\Database\Connection;
-use FastRoute\RouteCollector;
+
 use function FastRoute\simpleDispatcher;
 
-class Kernel 
+class Kernel
 {
-    protected ?Connection $connection = null;
-    public function __construct()
-    {
-        $config = include BASE_PATH . '/database/config.php';
+	protected ?Connection $connection = null;
 
-        $this->connection = Connection::create($config['connectionString']);
-    }
+	public function __construct()
+	{
+		$config = include BASE_PATH . '/database/config.php';
 
-    public function handle(Request $request): Response 
-    {
-        $dispatcher = simpleDispatcher(function(RouteCollector $routeCollector){
-            $routes = include BASE_PATH . '/routes/web.php';
+		$this->connection = Connection::create($config['connectionString']);
+	}
 
-            foreach ($routes as $route) {
-                $routeCollector->addRoute(...$route);
-            }
-        });
+	public function handle(Request $request): Response
+	{
+		$dispatcher = simpleDispatcher(function (RouteCollector $routeCollector) {
+			$routes = include BASE_PATH . '/routes/web.php';
 
-        $routeInfo = $dispatcher->dispatch(
-            $request->getMethod(), 
-            $request->getUri(),
-        );
+			foreach ($routes as $route) {
+				$routeCollector->addRoute(...$route);
+			}
+		});
 
-        [$status, [$controller, $method], $vars] = $routeInfo;
-       
-        $controller = new $controller;
+		$routeInfo = $dispatcher->dispatch(
+			$request->getMethod(),
+			$request->getUri(),
+		);
 
-        if($controller instanceof AbstractController){
-            $controller->setRequest($request);
-        }
-        
-        return call_user_func_array([$controller, $method], $vars);
-    }
+		[$status, [$controller, $method], $vars] = $routeInfo;
+
+		$controller = new $controller;
+
+		if ($controller instanceof AbstractController) {
+			$controller->setRequest($request);
+		}
+
+		return call_user_func_array([$controller, $method], $vars);
+	}
 }
