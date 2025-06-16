@@ -1,22 +1,21 @@
-<?php 
-declare(strict_types=1);
+<?php
 
 namespace Elephant\Framework\Http;
 
 use Elephant\Framework\Contracts\ResponseInterface;
 
-class Response implements ResponseInterface
+class RedirectResponse implements ResponseInterface
 {
     public function __construct(
-        private ?string $content = '',
-        private int $status = 200,
-        private array $headers = [],
+        private string $url,
+        private int $status = 302
     ){
         http_response_code($status);
     }
 
     public function send(): void
     {
-        echo $this->content;
+        header("Location: " . $this->url);
+        exit;
     }
 }
