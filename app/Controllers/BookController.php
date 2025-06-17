@@ -11,7 +11,6 @@ class BookController extends AbstractController
 {
     public function show(int $id): Response
     {
-
         return $this->render('book.html.twig',[
             'id' => $id,
         ]);
