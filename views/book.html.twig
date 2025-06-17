@@ -1,1 +1,8 @@
-<h1>This is book number {{ id }}</h1>
+{# views/book.html.twig #}
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Book Page{% endblock %}
+
+{% block content %}
+  <h1>This is book number {{ id }}</h1>
+{% endblock %}

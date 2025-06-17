@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+{# views/books/create.html.twig #}
+{% extends 'layouts/base.html.twig' %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Form</title>
-</head>
+{% block title %}Create a New Book{% endblock %}
 
-<body>
-	<form action="/books" method="POST">
-		<div>
-			<div><label for="">Title</label></div>
-			<input type="text" name="title">
-		</div>
-		<div>
-			<div><label for="">Body</label></div>
-			<textarea name="body"></textarea>
-		</div>
-		<div>
-			<button type="submit">Create</button>
-		</div>
-	</form>
-</body>
-
-</html>
+{% block content %}
+  <h1>Create a Book</h1>
+  <form action="/books" method="POST">
+    <div>
+      <label for="title">Title</label><br>
+      <input type="text" name="title" id="title" value="{{ old.title|default('') }}">
+    </div>
+    <div>
+      <label for="body">Body</label><br>
+      <textarea name="body" id="body">{{ old.body|default('') }}</textarea>
+    </div>
+    <div>
+      <button type="submit">Create</button>
+    </div>
+  </form>
+{% endblock %}
